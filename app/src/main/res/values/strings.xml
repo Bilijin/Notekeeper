@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">NoteKeeper</string>
+    <string name="img">An image</string>
+    <string name="first_note">My First Note</string>
+    <string name="first_note_text">This is a dummy note content</string>
+    <string name="your_saved_notes">Your Journal Entries:</string>
+    <string name="icon">An Icon</string>
+    <string name="date">Date:</string>
+    <string name="dummy_date">22/07/2020</string>
+    <string name="hello_user">Hello User :)</string>
+    <string name="what_to_do">What you want to do today?</string>
+    <string name="new_note">Add a new entry?</string>
+    <string name="view_old">or view your saved entries</string>
+    <string name="add_note">Add a new note</string>
+    <string name="view_notes">View your notes</string>
+    <string name="edit_note">Edit Note</string>
+    <string name="delete_note">Delete Note</string>
+
+
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+</resources>

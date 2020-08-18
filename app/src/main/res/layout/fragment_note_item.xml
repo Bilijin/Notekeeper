@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="10dp"
+    app:cardCornerRadius="15dp"
+    android:layout_margin="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        >
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:scaleType="fitXY"
+            android:id="@+id/image"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="@string/img"
+            android:layout_marginEnd="16dp"
+            tools:src="@drawable/coffee"/>
+
+        <TextView
+            android:textSize="24sp"
+            tools:text="@string/first_note"
+            android:id="@+id/item_number"
+            android:layout_toEndOf="@+id/image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceListItem" />
+
+        <TextView
+            tools:text="@string/first_note_text"
+            android:textSize="16sp"
+            android:id="@+id/content"
+            android:layout_toEndOf="@+id/image"
+            android:layout_below="@id/item_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:singleLine="true"
+            android:ellipsize="end"/>
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
