@@ -26,6 +26,7 @@ public class MyNoteRecyclerViewAdapter extends RecyclerView.Adapter<MyNoteRecycl
 
     private final List<Snippet> snippets;
     private Context context;
+    private int position;
     private static RecyclerViewClickListener clickListener;
 
     public MyNoteRecyclerViewAdapter(List<Snippet> content, Context context, RecyclerViewClickListener clickListener) {
@@ -44,6 +45,7 @@ public class MyNoteRecyclerViewAdapter extends RecyclerView.Adapter<MyNoteRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Snippet snippet = snippets.get(position);
+        this.position = position;
 
         TextView textView = holder.mTitleView;
         textView.setText(snippet.getTitle());
@@ -51,8 +53,6 @@ public class MyNoteRecyclerViewAdapter extends RecyclerView.Adapter<MyNoteRecycl
         TextView txtView = holder.mContentView;
         txtView.setText(snippet.getText());
 
-        ImageView imageView = holder.mImageView;
-        imageView.setImageResource(snippet.getImage());
     }
 
     @Override
@@ -60,18 +60,20 @@ public class MyNoteRecyclerViewAdapter extends RecyclerView.Adapter<MyNoteRecycl
         return snippets.size();
     }
 
+    public int getPosition() {
+        return position;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
         public final View mView;
         public final TextView mTitleView;
         public final TextView mContentView;
-        public final ImageView mImageView;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mTitleView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
-            mImageView = (ImageView) view.findViewById(R.id.image);
+            mTitleView = view.findViewById(R.id.item_number);
+            mContentView = view.findViewById(R.id.content);
 
             view.setOnClickListener(this);
             view.setOnCreateContextMenuListener(this);
@@ -94,6 +96,5 @@ public class MyNoteRecyclerViewAdapter extends RecyclerView.Adapter<MyNoteRecycl
             inflater.inflate(R.menu.note_edit_menu, menu);
         }
     }
-
 
 }

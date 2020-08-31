@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -16,20 +15,18 @@
         >
 
         <ImageView
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:scaleType="fitXY"
+            android:src="@drawable/ic_outline_delete_forever_24"
             android:id="@+id/image"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:contentDescription="@string/img"
-            android:layout_marginEnd="16dp"
-            tools:src="@drawable/coffee"/>
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/img"/>
 
         <TextView
             android:textSize="24sp"
             tools:text="@string/first_note"
             android:id="@+id/item_number"
-            android:layout_toEndOf="@+id/image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?attr/textAppearanceListItem" />
@@ -38,7 +35,6 @@
             tools:text="@string/first_note_text"
             android:textSize="16sp"
             android:id="@+id/content"
-            android:layout_toEndOf="@+id/image"
             android:layout_below="@id/item_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

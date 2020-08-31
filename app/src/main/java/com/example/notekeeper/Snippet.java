@@ -1,16 +1,24 @@
 package com.example.notekeeper;
 
 public class Snippet {
-    private final int image;
-    private final String title;
-    private final String text;
-    private final int date;
+    private int image;
+    private String title;
+    private String text;
+    private String date;
+    private long id;
 
-    Snippet(int image, String title, String text,int date) {
+    Snippet(int image, String title, String text,String date) {
         this.image = image;
         this.title= title;
         this.text = text;
         this.date = date;
+    }
+
+    Snippet(String title, String text,String date, long id) {
+        this.title= title;
+        this.text = text;
+        this.date = date;
+        this.id = id;
     }
 
     public int getImage() {
@@ -25,7 +33,11 @@ public class Snippet {
         return text;
     }
 
-    public int getDate() {
+    public String getDate() {
         return date;
+    }
+
+    public long getId() {
+        return id;
     }
 }

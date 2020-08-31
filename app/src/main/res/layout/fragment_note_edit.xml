@@ -29,7 +29,7 @@
         android:layout_alignParentEnd="true"
         android:text="@string/dummy_date"/>
 
-    <TextView
+    <EditText
         android:id="@+id/title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/title_text"
         >
-        <TextView
+        <EditText
             android:id="@+id/note_body"
             android:textSize="16sp"
             android:layout_width="wrap_content"
@@ -56,11 +56,14 @@
     </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:pressedTranslationZ="0dp"
+        app:fabSize="normal"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="32dp"
-        android:src="@drawable/ic_baseline_edit_24"
-        android:id="@+id/edit"/>
-    </RelativeLayout>
+        android:layout_marginEnd="32dp"
+        android:src="@drawable/ic_baseline_save_24"/>
+</RelativeLayout>

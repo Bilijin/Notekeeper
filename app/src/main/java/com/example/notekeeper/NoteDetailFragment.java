@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link NoteDetailFragment#newInstance} factory method to
@@ -21,6 +23,8 @@ public class NoteDetailFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    FloatingActionButton button;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -69,11 +73,27 @@ public class NoteDetailFragment extends Fragment {
         date = noteView.findViewById(R.id.date);
         noteTitle = noteView.findViewById(R.id.title_text);
         note = noteView.findViewById(R.id.note_body);
+        button = noteView.findViewById(R.id.edit);
         Intent intent = getActivity().getIntent();
 
         date.setText(String.valueOf(intent.getStringExtra(MainActivity.NOTE_DATE_EXTRA)));
         noteTitle.setText(intent.getStringExtra(MainActivity.NOTE_TITLE_EXTRA));
         note.setText(intent.getStringExtra(MainActivity.NOTE_TEXT_EXTRA));
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("title", noteTitle.getText().toString());
+                bundle.putString("note", note.getText().toString());
+
+                NoteEditFragment noteEditFragment = new NoteEditFragment();
+                noteEditFragment.setArguments(bundle);
+
+                ((NoteDetailsActivity)getActivity()).loadFragment(noteEditFragment, "Note Edit");
+            }
+        });
+
         return noteView;
     }
 }
