@@ -39,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
+    public void reloadThis() {
+        NoteFragment noteFragment = new NoteFragment();
+        noteFragment.reload();
+    }
     public void itemMenu(MenuItem item) {
 //        switch (item.getItemId()) {
 //            case R.id.edit:

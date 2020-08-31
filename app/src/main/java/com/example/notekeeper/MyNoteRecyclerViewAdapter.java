@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,23 +29,27 @@ public class MyNoteRecyclerViewAdapter extends RecyclerView.Adapter<MyNoteRecycl
     private Context context;
     private int position;
     private static RecyclerViewClickListener clickListener;
+    private NotekeeperDBAdapter dbAdapter;
 
     public MyNoteRecyclerViewAdapter(List<Snippet> content, Context context, RecyclerViewClickListener clickListener) {
         snippets = content;
         this.context = context;
         MyNoteRecyclerViewAdapter.clickListener = clickListener;
+        dbAdapter = new NotekeeperDBAdapter(context);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_note_item, parent, false);
+
+
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        Snippet snippet = snippets.get(position);
+        final Snippet snippet = snippets.get(position);
         this.position = position;
 
         TextView textView = holder.mTitleView;
@@ -52,6 +57,22 @@ public class MyNoteRecyclerViewAdapter extends RecyclerView.Adapter<MyNoteRecycl
 
         TextView txtView = holder.mContentView;
         txtView.setText(snippet.getText());
+
+        ImageView bin = holder.mBin;
+
+        bin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dbAdapter.open();
+                dbAdapter.deleteNote(snippet.getId());
+                snippets.clear();
+                snippets.addAll(dbAdapter.getAllNotes());
+                NoteFragment noteFragment = new NoteFragment();
+                noteFragment.reload();
+                dbAdapter.close();
+//                Log.d("highdee", String.valueOf(snippet.getId()));
+            }
+        });
 
     }
 
@@ -68,12 +89,15 @@ public class MyNoteRecyclerViewAdapter extends RecyclerView.Adapter<MyNoteRecycl
         public final View mView;
         public final TextView mTitleView;
         public final TextView mContentView;
+        public final ImageView mBin;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             mTitleView = view.findViewById(R.id.item_number);
             mContentView = view.findViewById(R.id.content);
+            mBin = view.findViewById(R.id.bin);
+
 
             view.setOnClickListener(this);
             view.setOnCreateContextMenuListener(this);

@@ -95,6 +95,10 @@ public class NotekeeperDBAdapter {
         return sqLiteDatabase.update(NOTE_TABLE, values, COLUMN_ID + " = " + idNew, null);
     }
 
+    public long deleteNote(long idToDelete) {
+        return sqLiteDatabase.delete(NOTE_TABLE, COLUMN_ID + " = " + idToDelete, null);
+    }
+
     public ArrayList<Snippet> getAllNotes() {
         ArrayList<Snippet> Snippets = new ArrayList<>();
         Cursor cursor = sqLiteDatabase.query(NOTE_TABLE,allColumns,null, null, null,null, null);

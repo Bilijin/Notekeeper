@@ -93,6 +93,10 @@ public class NoteFragment extends Fragment implements RecyclerViewClickListener 
         viewNoteDetails(position, MainActivity.FragmentToLaunch.VIEW);
     }
 
+    public void reload() {
+        noteRecyclerViewAdapter.notifyDataSetChanged();
+    }
+
 //    public void launch(String vv, int position) {
 //        switch (vv){
 //            case "view" :
