@@ -67,10 +67,9 @@ public class MyNoteRecyclerViewAdapter extends RecyclerView.Adapter<MyNoteRecycl
                 dbAdapter.deleteNote(snippet.getId());
                 snippets.clear();
                 snippets.addAll(dbAdapter.getAllNotes());
-                NoteFragment noteFragment = new NoteFragment();
-                noteFragment.reload();
+
+                notifyDataSetChanged();
                 dbAdapter.close();
-//                Log.d("highdee", String.valueOf(snippet.getId()));
             }
         });
 
