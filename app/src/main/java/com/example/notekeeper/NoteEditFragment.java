@@ -83,7 +83,7 @@ public class NoteEditFragment extends Fragment {
 
         dbAdapter = new NotekeeperDBAdapter(getActivity());
 
-        if (getActivity().getIntent().getStringExtra("fragment") == "New Note") {
+        if (getActivity().getIntent().getStringExtra("fragment").equals("New Note")) {
             isNew = true;
             getActivity().setTitle("New Note");
         } else {
@@ -136,7 +136,6 @@ public class NoteEditFragment extends Fragment {
                 if (isNew) {
                     addNewNote(notekeeperDBAdapter);
                 } else {
-//                    dbAdapter.updateNote(identify, title.getText().toString(), text.getText().toString());
                     updateNote(notekeeperDBAdapter);
                 }
 
@@ -164,6 +163,7 @@ public class NoteEditFragment extends Fragment {
             Toast.makeText(getActivity(),"Ensure you enter a title and your note",Toast.LENGTH_SHORT).show();
         } else {
             dbAdapter1.createNote(tp, note);
+            Toast.makeText(getActivity(), "Your new note has been created", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -175,6 +175,7 @@ public class NoteEditFragment extends Fragment {
             Toast.makeText(getActivity(),"Ensure you enter a title and your note",Toast.LENGTH_SHORT).show();
         } else {
             dbAdapter1.updateNote(identify, tp, note);
+            Toast.makeText(getActivity(), "Note updated sucessfully",Toast.LENGTH_SHORT).show();
         }
     }
 }

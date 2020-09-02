@@ -1,5 +1,6 @@
 package com.example.notekeeper;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -8,7 +9,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
     public static final String NOTE_TITLE_EXTRA = "com.example.notekeeper.Title";
     public static final String NOTE_TEXT_EXTRA = "com.example.notekeeper.Text";
@@ -17,15 +20,43 @@ public class MainActivity extends AppCompatActivity {
 
     public enum FragmentToLaunch{ EDIT, VIEW };
 
+    BottomNavigationView navigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        navigationView = findViewById(R.id.navigation);
+        navigationView.setOnNavigationItemSelectedListener(this);
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container,new NoteFragment())
                 .commit();
+
+
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        Fragment fragment = null;
+        switch (item.getItemId()){
+            case R.id.home:
+                fragment = new NoteFragment();
+                break;
+
+            case R.id.settings:
+                fragment = new SettingsFragment();
+                break;
+        }
+        return loadFragment(fragment);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
     private boolean loadFragment(Fragment fragment) {
@@ -39,10 +70,6 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    public void reloadThis() {
-        NoteFragment noteFragment = new NoteFragment();
-        noteFragment.reload();
-    }
     public void itemMenu(MenuItem item) {
 //        switch (item.getItemId()) {
 //            case R.id.edit:
