@@ -8,21 +8,26 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.io.Serializable;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link NoteEditFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NoteEditFragment extends Fragment {
+public class NoteEditFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,6 +44,8 @@ public class NoteEditFragment extends Fragment {
     NotekeeperDBAdapter dbAdapter;
     private boolean isNew = false;
     long identify;
+    Spinner spinner;
+    Snippet.NoteCategory category;
     public NoteEditFragment() {
         // Required empty public constructor
     }
@@ -80,14 +87,20 @@ public class NoteEditFragment extends Fragment {
         title = editView.findViewById(R.id.title_text);
         text = editView.findViewById(R.id.note_body);
         save = editView.findViewById(R.id.save);
+        spinner = editView.findViewById(R.id.category_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.category_options, android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
 
         dbAdapter = new NotekeeperDBAdapter(getActivity());
 
-        if (getActivity().getIntent().getStringExtra("fragment").equals("New Note")) {
+        if (getActivity().getIntent().getStringExtra("fragment") != null) {
             isNew = true;
-            getActivity().setTitle("New Note");
+            getActivity().setTitle(getString(R.string.new_note_fragment_title));
         } else {
-            getActivity().setTitle("Edit Note");
+            getActivity().setTitle(getString(R.string.edit_note_fragment_title));
             identify = getActivity().getIntent().getLongExtra("ID", 0);
         }
 
@@ -100,6 +113,8 @@ public class NoteEditFragment extends Fragment {
             if (b != null) {
                 title.setText(b.getString("title"));
                 text.setText(b.getString("note"));
+
+                setSpinner(String.valueOf( b.getSerializable("category")));
             }
         }
 
@@ -111,6 +126,7 @@ public class NoteEditFragment extends Fragment {
                 confirmSaveObject.show();
             }
         });
+
         return editView;
     }
 
@@ -155,6 +171,38 @@ public class NoteEditFragment extends Fragment {
         confirmSaveObject = builder.create();
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Log.d("Works?", String.valueOf(id));
+
+        switch ((int) id) {
+            case 0:
+                category = Snippet.NoteCategory.GENERAL;
+                break;
+
+            case 1:
+                category = Snippet.NoteCategory.PERSONAL;
+                break;
+
+            case 2:
+                category = Snippet.NoteCategory.WORK;
+                break;
+
+            case 3:
+                category = Snippet.NoteCategory.FOOD;
+                break;
+
+            case 4:
+                category = Snippet.NoteCategory.HOBBIES;
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
     public void addNewNote(NotekeeperDBAdapter dbAdapter1) {
         String note = text.getText().toString();
         String tp = title.getText().toString();
@@ -162,7 +210,7 @@ public class NoteEditFragment extends Fragment {
         if (note.isEmpty() || tp.isEmpty()) {
             Toast.makeText(getActivity(),"Ensure you enter a title and your note",Toast.LENGTH_SHORT).show();
         } else {
-            dbAdapter1.createNote(tp, note);
+            dbAdapter1.createNote(tp, note,category);
             Toast.makeText(getActivity(), "Your new note has been created", Toast.LENGTH_SHORT).show();
         }
     }
@@ -178,4 +226,29 @@ public class NoteEditFragment extends Fragment {
             Toast.makeText(getActivity(), "Note updated sucessfully",Toast.LENGTH_SHORT).show();
         }
     }
+
+    private void setSpinner(String cat) {
+        switch (cat) {
+            case "GENERAL":
+                spinner.setSelection(0);
+                break;
+
+            case "PERSONAL":
+                spinner.setSelection(1);
+                break;
+
+            case "WORK":
+                spinner.setSelection(2);
+                break;
+
+            case "FOOD":
+                spinner.setSelection(3);
+                break;
+
+            case "HOBBIES":
+                spinner.setSelection(4);
+                break;
+        }
+    }
+
 }

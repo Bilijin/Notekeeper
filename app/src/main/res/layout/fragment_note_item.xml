@@ -26,7 +26,7 @@
         <TextView
             android:textSize="24sp"
             tools:text="@string/first_note"
-            android:id="@+id/item_number"
+            android:id="@+id/item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?attr/textAppearanceListItem" />
@@ -35,7 +35,7 @@
             tools:text="@string/first_note_text"
             android:textSize="16sp"
             android:id="@+id/content"
-            android:layout_below="@id/item_number"
+            android:layout_below="@id/item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?attr/textAppearanceListItem"

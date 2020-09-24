@@ -1,19 +1,23 @@
 package com.example.notekeeper;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements RecyclerViewClickListener{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,6 +27,12 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private RecyclerView recyclerView;
+    private CategoryRecyclerViewAdapter categoryRecyclerViewAdapter;
+    ArrayList<Category> categories;
+    TextView viewAll;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -59,6 +69,50 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View home = inflater.inflate(R.layout.fragment_home, container, false);
+
+        recyclerView = home.findViewById(R.id.category_recycler_view);
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+        recyclerView.setLayoutManager(manager);
+        TextView helloText = home.findViewById(R.id.hello);
+        helloText.setText(((MainActivity)getActivity()).getUserName());
+        viewAll = home.findViewById(R.id.view_all);
+
+
+        categories = new ArrayList<>();
+        categories.add(new Category("General", R.drawable.ic_twotone_class_24));
+        categories.add(new Category("Personal", R.drawable.ic_baseline_sentiment_satisfied_alt_24));
+        categories.add(new Category("Work",R.drawable.ic_twotone_work_24));
+        categories.add(new Category("Food", R.drawable.ic_baseline_fastfood_24));
+        categories.add(new Category("Hobbies", R.drawable.ic_twotone_sports_esports_24));
+
+        categoryRecyclerViewAdapter = new CategoryRecyclerViewAdapter(categories, this);
+
+        recyclerView.setAdapter(categoryRecyclerViewAdapter);
+        viewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewNoteCategory("All");
+            }
+        });
+        return home;
+    }
+
+    private void viewNoteCategory(String categoryName) {
+        Bundle b = new Bundle();
+        b.putString("category",categoryName);
+        NoteFragment fragment = new NoteFragment();
+        fragment.setArguments(b);
+
+        ((MainActivity)getActivity()).loadFragment(fragment, "Note Fragment");
+    }
+
+    @Override
+    public void recyclerViewListClicked(View v, int position) {
+        Category category = categories.get(position);
+        String name = category.getName();
+
+        viewNoteCategory(name);
+
     }
 }

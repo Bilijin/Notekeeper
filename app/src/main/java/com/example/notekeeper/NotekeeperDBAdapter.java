@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.time.LocalDate;
 
 public class NotekeeperDBAdapter {
@@ -20,13 +19,15 @@ public class NotekeeperDBAdapter {
     public static final String COLUMN_TITLE = "title";
     public static final String COLUMN_TEXT = "text";
     public static final String COLUMN_DATE = "date";
+    public static final String COLUMN_CATEGORY = "category";
 
-    private String[] allColumns = { COLUMN_ID, COLUMN_TITLE, COLUMN_TEXT, COLUMN_DATE};
+    private String[] allColumns = { COLUMN_ID, COLUMN_TITLE, COLUMN_TEXT, COLUMN_CATEGORY, COLUMN_DATE};
 
     public static final String CREATE_TABLE_NOTE = "create table " + NOTE_TABLE + " ( "
             + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + COLUMN_TITLE + " text not null, "
             + COLUMN_TEXT + " text not null, "
+            + COLUMN_CATEGORY + " integer not null, "
             + COLUMN_DATE + ");";
 
     private SQLiteDatabase sqLiteDatabase;
@@ -68,10 +69,11 @@ public class NotekeeperDBAdapter {
         }
     }
 
-    public Snippet createNote(String title, String text) {
+    public Snippet createNote(String title, String text, Snippet.NoteCategory category) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_TITLE, title);
         values.put(COLUMN_TEXT,text);
+        values.put(COLUMN_CATEGORY, category.name());
         values.put(COLUMN_DATE, LocalDate.now() + "");
 
         long insertId = sqLiteDatabase.insert(NOTE_TABLE, null, values);
@@ -111,11 +113,82 @@ public class NotekeeperDBAdapter {
         return Snippets;
     }
 
+    public ArrayList<Snippet> getGeneralNotes() {
+        ArrayList<Snippet> Snippets = new ArrayList<>();
+        Cursor cursor = sqLiteDatabase.query(NOTE_TABLE,allColumns,null, null, null,null, null);
+
+        for (cursor.moveToLast(); !cursor.isBeforeFirst(); cursor.moveToPrevious()) {
+            Snippet snippet = cursorToNote(cursor);
+            if (snippet.getCategory() == Snippet.NoteCategory.GENERAL) {
+                Snippets.add(snippet);
+            }
+        }
+        cursor.close();
+        return Snippets;
+    }
+
+    public ArrayList<Snippet> getPersonalNotes() {
+        ArrayList<Snippet> Snippets = new ArrayList<>();
+        Cursor cursor = sqLiteDatabase.query(NOTE_TABLE,allColumns,null, null, null,null, null);
+
+        for (cursor.moveToLast(); !cursor.isBeforeFirst(); cursor.moveToPrevious()) {
+            Snippet snippet = cursorToNote(cursor);
+            if (snippet.getCategory() == Snippet.NoteCategory.PERSONAL) {
+                Snippets.add(snippet);
+            }
+        }
+        cursor.close();
+        return Snippets;
+    }
+
+    public ArrayList<Snippet> getFoodNotes() {
+        ArrayList<Snippet> Snippets = new ArrayList<>();
+        Cursor cursor = sqLiteDatabase.query(NOTE_TABLE,allColumns,null, null, null,null, null);
+
+        for (cursor.moveToLast(); !cursor.isBeforeFirst(); cursor.moveToPrevious()) {
+            Snippet snippet = cursorToNote(cursor);
+            if (snippet.getCategory() == Snippet.NoteCategory.FOOD) {
+                Snippets.add(snippet);
+            }
+        }
+        cursor.close();
+        return Snippets;
+    }
+
+    public ArrayList<Snippet> getHobbyNotes() {
+        ArrayList<Snippet> Snippets = new ArrayList<>();
+        Cursor cursor = sqLiteDatabase.query(NOTE_TABLE,allColumns,null, null, null,null, null);
+
+        for (cursor.moveToLast(); !cursor.isBeforeFirst(); cursor.moveToPrevious()) {
+            Snippet snippet = cursorToNote(cursor);
+            if (snippet.getCategory() == Snippet.NoteCategory.HOBBIES) {
+                Snippets.add(snippet);
+            }
+        }
+        cursor.close();
+        return Snippets;
+    }
+
+    public ArrayList<Snippet> getWorkNotes() {
+        ArrayList<Snippet> Snippets = new ArrayList<>();
+        Cursor cursor = sqLiteDatabase.query(NOTE_TABLE,allColumns,null, null, null,null, null);
+
+        for (cursor.moveToLast(); !cursor.isBeforeFirst(); cursor.moveToPrevious()) {
+            Snippet snippet = cursorToNote(cursor);
+            if (snippet.getCategory() == Snippet.NoteCategory.WORK) {
+                Snippets.add(snippet);
+            }
+        }
+        cursor.close();
+        return Snippets;
+    }
+
     private Snippet cursorToNote(Cursor cursor) {
 
         return new Snippet(cursor.getString( 1 ),
                 cursor.getString( 2 ),
-                cursor.getString(3),
+                cursor.getString(4),
+                Snippet.NoteCategory.valueOf(cursor.getString(3)),
                 cursor.getLong(0));
     }
 }

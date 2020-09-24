@@ -43,7 +43,6 @@ public class MyNoteRecyclerViewAdapter extends RecyclerView.Adapter<MyNoteRecycl
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_note_item, parent, false);
 
-
         return new ViewHolder(view);
     }
 
@@ -93,7 +92,7 @@ public class MyNoteRecyclerViewAdapter extends RecyclerView.Adapter<MyNoteRecycl
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mTitleView = view.findViewById(R.id.item_number);
+            mTitleView = view.findViewById(R.id.item_title);
             mContentView = view.findViewById(R.id.content);
             mBin = view.findViewById(R.id.bin);
 

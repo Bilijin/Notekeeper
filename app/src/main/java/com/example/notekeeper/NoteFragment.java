@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,10 +65,15 @@ public class NoteFragment extends Fragment implements RecyclerViewClickListener 
         recyclerView = view.findViewById(R.id.list);
         newNote = view.findViewById(R.id.new_note);
         Context context = view.getContext();
+        getActivity().setTitle("Jottings");
 
         dbAdapter = new NotekeeperDBAdapter(context);
         dbAdapter.open();
-        snippets = dbAdapter.getAllNotes();
+        Bundle b = this.getArguments();
+        String categoryName = b.getString("category");
+
+        snippets = getSnippets(dbAdapter, categoryName);
+
         dbAdapter.close();
 
 
@@ -104,31 +108,63 @@ public class NoteFragment extends Fragment implements RecyclerViewClickListener 
 //        }
 //    }
 
-    public void viewNoteDetails(int position, MainActivity.FragmentToLaunch ftl) {
+    private void viewNoteDetails(int position, MainActivity.FragmentToLaunch ftl) {
         Snippet snippet = snippets.get(position);
 
         Intent intent = new Intent(getActivity(), NoteDetailsActivity.class);
 
-        intent.putExtra(MainActivity.NOTE_TITLE_EXTRA, snippet.getTitle());
-        intent.putExtra(MainActivity.NOTE_TEXT_EXTRA, snippet.getText());
-        intent.putExtra(MainActivity.NOTE_DATE_EXTRA, snippet.getDate());
+        intent.putExtra("Note Title", snippet.getTitle());
+        intent.putExtra("Note Text", snippet.getText());
+        intent.putExtra("Note Date", snippet.getDate());
+        intent.putExtra("Note Category", snippet.getCategory());
         intent.putExtra("ID", snippet.getId());
 
         switch (ftl) {
             case EDIT:
-                intent.putExtra(MainActivity.NOTE_FRAGMENT_EXTRA,MainActivity.FragmentToLaunch.EDIT);
+                intent.putExtra("Fragment",MainActivity.FragmentToLaunch.EDIT);
                 break;
             case VIEW:
-                intent.putExtra(MainActivity.NOTE_FRAGMENT_EXTRA,MainActivity.FragmentToLaunch.VIEW);
+                intent.putExtra("Fragment",MainActivity.FragmentToLaunch.VIEW);
         }
 
         startActivity(intent);
     }
 
-    public void addNewNote() {
+    private void addNewNote() {
         Intent intent = new Intent(getActivity(), NoteDetailsActivity.class);
-        intent.putExtra(MainActivity.NOTE_FRAGMENT_EXTRA,MainActivity.FragmentToLaunch.EDIT);
+        intent.putExtra("Fragment",MainActivity.FragmentToLaunch.EDIT);
         intent.putExtra("fragment", "New Note");
         startActivity(intent);
+    }
+
+    private ArrayList<Snippet> getSnippets(NotekeeperDBAdapter adapter, String cat) {
+        ArrayList<Snippet> notes = new ArrayList<>();
+        switch (cat) {
+            case "All":
+                notes = adapter.getAllNotes();
+                break;
+
+            case "General":
+                notes = adapter.getGeneralNotes();
+                break;
+
+            case "Personal":
+                notes = adapter.getPersonalNotes();
+                break;
+
+            case "Hobbies":
+                notes = adapter.getHobbyNotes();
+                break;
+
+            case "Work":
+                notes = adapter.getWorkNotes();
+                break;
+
+            case "Food":
+                notes = adapter.getFoodNotes();
+                break;
+        }
+
+        return notes;
     }
 }

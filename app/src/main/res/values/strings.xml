@@ -1,9 +1,14 @@
 <resources>
-    <string name="app_name">NoteKeeper</string>
+    <string name="app_name">My Jotter</string>
+    <!-- AppBar Titles-->
+    <string name="new_note_fragment_title">New Jotting</string>
+    <string name="edit_note_fragment_title">Edit Jotting</string>
+    <string name="settings_fragment_title">Settings</string>
+
     <string name="img">An image</string>
     <string name="first_note">My First Note</string>
     <string name="first_note_text">This is a dummy note content</string>
-    <string name="your_saved_notes">Your Journal Entries:</string>
+    <string name="your_saved_notes">Your Jottings:</string>
     <string name="icon">An Icon</string>
     <string name="date">Date:</string>
     <string name="dummy_date">22/07/2020</string>
@@ -11,13 +16,21 @@
     <string name="what_to_do">What you want to do today?</string>
     <string name="new_note">Add a new entry?</string>
     <string name="view_old">or view your saved entries</string>
-    <string name="add_note">Add a new note</string>
-    <string name="view_notes">View your notes</string>
+    <string name="add_note">Jot down a note</string>
+    <string name="view_notes">View your jottings</string>
     <string name="edit_note">Edit Note</string>
     <string name="delete_note">Delete Note</string>
     <string name="home">Home</string>
-    <string name="settings">Settings</string>
+    <string name="category">Category:</string>
+    <string name="view_all"><i>View All</i></string>
 
+    <string-array name="category_options">
+        <item>GENERAL</item>
+        <item>PERSONAL</item>
+        <item>WORK</item>
+        <item>FOOD</item>
+        <item>HOBBIES</item>
+    </string-array>
 
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
@@ -49,4 +62,5 @@
     <string name="name_title">Your Name</string>
     <string name="display_header">Display</string>
     <string name="dark_mode">Dark Mode</string>
+    <string name="title_activity_settings">SettingsActivity</string>
 </resources>

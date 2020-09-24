@@ -10,10 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".MainActivity"/>
+        <activity
             android:name=".ui.login.LoginActivity"
-            android:label="@string/title_activity_login"/>
+            android:label="@string/title_activity_login" />
         <activity android:name=".NoteDetailsActivity"
-            />
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

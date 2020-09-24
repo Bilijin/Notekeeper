@@ -7,12 +7,20 @@
     tools:context=".NoteDetailsActivity"
     android:padding="16dp">
 
-    <ImageView
-        android:id="@+id/back"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/icon"
-        android:src="@drawable/ic_baseline_keyboard_backspace_24"/>
+        android:text="@string/category"
+        android:textStyle="bold"
+        android:id="@+id/category_text"
+        android:layout_marginEnd="5dp"/>
+
+    <TextView
+        android:id="@+id/category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/category_text"
+        tools:text="Personal"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -27,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:text="@string/dummy_date"/>
+        tools:text="@string/dummy_date"/>
 
     <TextView
         android:id="@+id/title_text"

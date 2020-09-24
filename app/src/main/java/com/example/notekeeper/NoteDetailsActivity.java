@@ -18,17 +18,17 @@ public class NoteDetailsActivity extends AppCompatActivity {
             NoteEditFragment editFragment = (NoteEditFragment) getSupportFragmentManager().findFragmentByTag("Note Edit");
         } else {
 
-            if (getIntent().getSerializableExtra(MainActivity.NOTE_FRAGMENT_EXTRA) == MainActivity.FragmentToLaunch.VIEW) {
+            if (getIntent().getSerializableExtra("Fragment") == MainActivity.FragmentToLaunch.VIEW) {
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.note_container, new NoteDetailFragment())
                         .commit();
-            } else if (getIntent().getSerializableExtra(MainActivity.NOTE_FRAGMENT_EXTRA) == MainActivity.FragmentToLaunch.EDIT) {
+            } else if (getIntent().getSerializableExtra("Fragment") == MainActivity.FragmentToLaunch.EDIT) {
                 Bundle bundle = new Bundle();
                 Intent intent = getIntent();
 
-                bundle.putString("title", intent.getStringExtra(MainActivity.NOTE_TITLE_EXTRA));
-                bundle.putString("note", intent.getStringExtra(MainActivity.NOTE_TEXT_EXTRA));
+                bundle.putString("title", intent.getStringExtra("Note Title"));
+                bundle.putString("note", intent.getStringExtra("Note Text"));
 
                 NoteEditFragment noteEditFragment = new NoteEditFragment();
                 noteEditFragment.setArguments(bundle);
@@ -41,16 +41,14 @@ public class NoteDetailsActivity extends AppCompatActivity {
 
     }
 
-    public boolean loadFragment(Fragment fragment, String tag) {
+    public void loadFragment(Fragment fragment, String tag) {
         if (fragment != null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.note_container,fragment,tag)
                     .addToBackStack(tag)
                     .commit();
-            return true;
         }
-        return false;
     }
 
     @Override

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".HomeFragment"
     android:orientation="vertical"
     android:padding="16dp">
@@ -10,23 +11,36 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_user"
-        android:textSize="32sp"/>
+        tools:text="@string/hello_user"
+        android:id="@+id/hello"
+        android:textSize="32sp"
+        android:layout_marginBottom="16dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/new_note"
-        android:textSize="24sp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view_notes"
+            android:textSize="24sp"/>
 
-    <Button
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/view_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view_all"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="5dp"/>
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/category_recycler_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_note"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/view_old"
-        android:textSize="24sp"/>
+        tools:listitem="@layout/category_recyclerview_item"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
 </LinearLayout>

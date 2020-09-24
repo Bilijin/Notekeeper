@@ -12,10 +12,9 @@
     <PreferenceCategory app:title="@string/display_header">
 
         <SwitchPreference
-            app:title="@string/dark_mode"
+            app:defaultValue="false"
             app:key="dark_mode"
-            app:defaultValue="false"/>
+            app:title="@string/dark_mode" />
 
     </PreferenceCategory>
-
 </PreferenceScreen>

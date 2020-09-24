@@ -1,57 +1,36 @@
 package com.example.notekeeper;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity{
 
-    public static final String NOTE_TITLE_EXTRA = "com.example.notekeeper.Title";
-    public static final String NOTE_TEXT_EXTRA = "com.example.notekeeper.Text";
-    public static final String NOTE_DATE_EXTRA = "com.example.notekeeper.Date";
-    public static final String NOTE_FRAGMENT_EXTRA = "com.example.notekeeper.FRAG";
+    public enum FragmentToLaunch{ EDIT, VIEW }
 
-    public enum FragmentToLaunch{ EDIT, VIEW };
-
-    BottomNavigationView navigationView;
+    String userName;
+    boolean darkMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        navigationView = findViewById(R.id.navigation);
-        navigationView.setOnNavigationItemSelectedListener(this);
+        loadPreferences();
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container,new NoteFragment())
+                .replace(R.id.fragment_container,new HomeFragment())
                 .commit();
 
-
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        Fragment fragment = null;
-        switch (item.getItemId()){
-            case R.id.home:
-                fragment = new NoteFragment();
-                break;
-
-            case R.id.settings:
-                fragment = new SettingsFragment();
-                break;
-        }
-        return loadFragment(fragment);
     }
 
     @Override
@@ -59,15 +38,43 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onBackPressed();
     }
 
-    private boolean loadFragment(Fragment fragment) {
+    public String getUserName() {
+        return "Hello " + userName + " :)";
+    }
+
+    private void loadPreferences() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        boolean isDarkMode = sharedPreferences.getBoolean("dark_mode", false);
+
+//        if (isDarkMode) {
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//        } else{
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//        }
+//        darkMode = isDarkMode;
+        userName = sharedPreferences.getString("signature","User");
+    }
+
+    public boolean loadFragment(Fragment fragment, String tag) {
         if (fragment != null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container,fragment)
+                    .addToBackStack(tag)
                     .commit();
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    public void openSettings(MenuItem item) {
+        startActivity(new Intent(MainActivity.this, SettingsActivity.class));
     }
 
     public void itemMenu(MenuItem item) {

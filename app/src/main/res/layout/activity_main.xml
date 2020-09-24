@@ -10,16 +10,6 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/fragment_container"
-        android:paddingBottom="48dp"/>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:menu="@menu/home_menu"
-        android:background="#FFFFFF"
-        android:layout_alignParentBottom="true"/>
-    
+        android:id="@+id/fragment_container"/>
 
 </RelativeLayout>

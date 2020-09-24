@@ -30,7 +30,7 @@ public class NoteDetailFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private TextView date,noteTitle,note;
+    private TextView date, noteTitle, note, category;
 
     public NoteDetailFragment() {
         // Required empty public constructor
@@ -68,17 +68,19 @@ public class NoteDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View noteView = inflater.inflate(R.layout.fragment_note_detail, container, false);
-        // Inflate the layout for this fragment
+        getActivity().setTitle("Jotting");
 
         date = noteView.findViewById(R.id.date);
         noteTitle = noteView.findViewById(R.id.title_text);
         note = noteView.findViewById(R.id.note_body);
         button = noteView.findViewById(R.id.edit);
-        Intent intent = getActivity().getIntent();
+        category = noteView.findViewById(R.id.category);
+        final Intent intent = getActivity().getIntent();
 
-        date.setText(String.valueOf(intent.getStringExtra(MainActivity.NOTE_DATE_EXTRA)));
-        noteTitle.setText(intent.getStringExtra(MainActivity.NOTE_TITLE_EXTRA));
-        note.setText(intent.getStringExtra(MainActivity.NOTE_TEXT_EXTRA));
+        date.setText(String.valueOf(intent.getStringExtra("Note Date")));
+        noteTitle.setText(intent.getStringExtra("Note Title"));
+        note.setText(intent.getStringExtra("Note Text"));
+        category.setText(String.valueOf(intent.getSerializableExtra("Note Category")));
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +88,7 @@ public class NoteDetailFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("title", noteTitle.getText().toString());
                 bundle.putString("note", note.getText().toString());
+                bundle.putSerializable("category", intent.getSerializableExtra("Note Category"));
 
                 NoteEditFragment noteEditFragment = new NoteEditFragment();
                 noteEditFragment.setArguments(bundle);
